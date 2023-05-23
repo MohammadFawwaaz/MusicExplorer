@@ -1,4 +1,4 @@
-﻿namespace MusicExplorer.Models
+﻿namespace MusicExplorer.Common.Models
 {
     public class Release
     {

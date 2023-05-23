@@ -9,7 +9,7 @@
     }
   },
   "profiles": {
-    "MusixExplorer": {
+    "MusicExplorer": {
       "commandName": "Project",
       "dotnetRunMessages": true,
       "launchBrowser": true,

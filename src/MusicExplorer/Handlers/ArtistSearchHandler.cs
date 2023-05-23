@@ -1,30 +1,35 @@
 ﻿using MediatR;
+using MusicExplorer.Infrastructure.Infrastructure.Sql;
 using MusicExplorer.Models.Request;
 using MusicExplorer.Models.Response;
+using System;
 
 namespace MusicExplorer.Handlers
 {
-    public class ArtistSearchHandler : IRequestHandler<ArtistSearchRequest, List<ArtistSearchResult>>
+    public class ArtistSearchHandler : IRequestHandler<ArtistSearchRequest, List<ArtistSearchResponse>>
     {
-        public ArtistSearchHandler()
+        private readonly IArtistRepository _artistRepository;
+        private readonly ILogger<ArtistSearchHandler> _logger;
+
+        public ArtistSearchHandler(IArtistRepository artistRepository, ILogger<ArtistSearchHandler> logger)
         {
-            
+            _artistRepository = artistRepository;
+            _logger = logger;
         }
 
-        public Task<List<ArtistSearchResult>> Handle(ArtistSearchRequest request, CancellationToken cancellationToken)
+        public async Task<List<ArtistSearchResponse>> Handle(ArtistSearchRequest request, CancellationToken cancellationToken)
         {
-            // Assuming you have a data source or service to retrieve artist search results
-            var artistResults = GetArtistSearchResults(request.SearchCriteria);
+            try
+            {
+                var artistResults = await _artistRepository.GetArtistsByName(request.SearchCriteria);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, "An error occurred while processing the ArtistSearchRequest.");
+                throw;
+            }
 
-            return Task.FromResult(artistResults);
-        }
-
-        private List<ArtistSearchResult> GetArtistSearchResults(string searchCriteria)
-        {
-            // Implement the logic to retrieve artist search results based on the search criteria
-            // This can involve database queries, external API calls, or any other data source
-            // Return a list of ArtistSearchResult objects
-            throw new NotImplementedException();
+            return new List<ArtistSearchResponse>();
         }
     }
 }

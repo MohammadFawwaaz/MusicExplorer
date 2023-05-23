@@ -1,6 +1,6 @@
 ﻿namespace MusicExplorer.Models.Response
 {
-    public class ArtistReleaseResult
+    public class ArtistSearchResponse
     {
     }
 }

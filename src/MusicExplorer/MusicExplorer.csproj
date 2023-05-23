@@ -15,7 +15,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Services\" />
+    <ProjectReference Include="..\MusicExplorer.Common\MusicExplorer.Common.csproj" />
+    <ProjectReference Include="..\MusicExplorer.Infrastructure\MusicExplorer.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>
