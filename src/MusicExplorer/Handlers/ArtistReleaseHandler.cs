@@ -1,12 +1,12 @@
 ﻿using MediatR;
-using Microsoft.Extensions.Logging;
 using MusicExplorer.Common.Models;
 using MusicExplorer.Infrastructure.Infrastructure.Sql;
 using MusicExplorer.Models.Request;
+using MusicExplorer.Models.Response;
 
 namespace MusicExplorer.Handlers
 {
-    public class ArtistReleaseHandler : IRequestHandler<ArtistReleaseRequest, List<Release>>
+    public class ArtistReleaseHandler : IRequestHandler<ArtistReleaseRequest, ArtistReleaseResponse>
     {
         private readonly IArtistRepository _artistRepository;
         private readonly ILogger<ArtistReleaseHandler> _logger;
@@ -17,19 +17,29 @@ namespace MusicExplorer.Handlers
             _logger = logger;
         }
 
-        public async Task<List<Release>> Handle(ArtistReleaseRequest request, CancellationToken cancellationToken)
+        public async Task<ArtistReleaseResponse> Handle(ArtistReleaseRequest request, CancellationToken cancellationToken)
         {
             try
             {
-                var releases = await _artistRepository.GetArtistsById(request.ArtistId);
+                var results = await _artistRepository.GetArtistsById(request.ArtistId);
+
+                if (results == null)
+                {
+                    return new ArtistReleaseResponse();
+                }
+
+                var releases = results.Select(item => new Release
+                {
+                    ReleaseId = Guid.NewGuid()
+                }).ToList();
+
+                return new ArtistReleaseResponse { Releases = releases };
             }
             catch (Exception e)
             {
                 _logger.LogError(e, "An error occurred while processing the ArtistReleaseRequest.");
                 throw;
             }
-
-            return new List<Release>();
         }
     }
 }

@@ -1,9 +1,9 @@
 ﻿using MediatR;
-using MusicExplorer.Common.Models;
+using MusicExplorer.Models.Response;
 
 namespace MusicExplorer.Models.Request
 {
-    public class ArtistReleaseRequest : IRequest<List<Release>>
+    public class ArtistReleaseRequest : IRequest<ArtistReleaseResponse>
     {
         public Guid ArtistId { get; set; }
     }

@@ -3,7 +3,7 @@ using MusicExplorer.Models.Response;
 
 namespace MusicExplorer.Models.Request
 {
-    public class ArtistSearchRequest : IRequest<List<ArtistSearchResponse>>
+    public class ArtistSearchRequest : IRequest<ArtistSearchResponse>
     {
         public string SearchCriteria { get; set; }
         public int PageNumber { get; set; }

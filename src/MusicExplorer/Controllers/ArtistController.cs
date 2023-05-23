@@ -2,8 +2,6 @@
 using MusicExplorer.Models;
 using MusicExplorer.Models.Request;
 using MediatR;
-using MusicExplorer.Models.Response;
-using System.Net;
 
 namespace MusicExplorer.Controllers
 {
@@ -21,7 +19,7 @@ namespace MusicExplorer.Controllers
         }
 
         [HttpGet("search/{searchCriteria}/{pageNumber}/{pageSize}")]
-        public async Task<ActionResult<List<ArtistSearchResponse>>> SearchArtists(string searchCriteria, int pageNumber, int pageSize)
+        public async Task<IActionResult> SearchArtists(string searchCriteria, int pageNumber, int pageSize)
         {
             try
             {
@@ -34,7 +32,12 @@ namespace MusicExplorer.Controllers
 
                 var results = await _mediator.Send(query);
 
-                var paginatedResults = PaginateResults(results, pageNumber, pageSize);
+                if(results == null)
+                {
+                    return Ok("No artist found.");
+                }
+
+                var paginatedResults = PaginateResults(results.Artists, pageNumber, pageSize);
 
                 return Ok(paginatedResults);
             }
@@ -46,7 +49,7 @@ namespace MusicExplorer.Controllers
         }
 
         [HttpGet("{artistId}/releases")]
-        public async Task<ActionResult<List<ArtistReleaseResponse>>> GetArtistReleases(Guid artistId)
+        public async Task<IActionResult> GetArtistReleases(Guid artistId)
         {
             try
             {
@@ -72,7 +75,12 @@ namespace MusicExplorer.Controllers
 
                 var results = await _mediator.Send(query);
 
-                var paginatedResults = PaginateResults(results, pageNumber, pageSize);
+                if (results == null)
+                {
+                    return Ok("No release found.");
+                }
+
+                var paginatedResults = PaginateResults(results.Releases, pageNumber, pageSize);
 
                 return Ok(paginatedResults);
             }

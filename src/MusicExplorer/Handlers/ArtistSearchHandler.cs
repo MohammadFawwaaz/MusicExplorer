@@ -1,12 +1,12 @@
 ﻿using MediatR;
+using MusicExplorer.Common.Models;
 using MusicExplorer.Infrastructure.Infrastructure.Sql;
 using MusicExplorer.Models.Request;
 using MusicExplorer.Models.Response;
-using System;
 
 namespace MusicExplorer.Handlers
 {
-    public class ArtistSearchHandler : IRequestHandler<ArtistSearchRequest, List<ArtistSearchResponse>>
+    public class ArtistSearchHandler : IRequestHandler<ArtistSearchRequest, ArtistSearchResponse>
     {
         private readonly IArtistRepository _artistRepository;
         private readonly ILogger<ArtistSearchHandler> _logger;
@@ -17,19 +17,31 @@ namespace MusicExplorer.Handlers
             _logger = logger;
         }
 
-        public async Task<List<ArtistSearchResponse>> Handle(ArtistSearchRequest request, CancellationToken cancellationToken)
+        public async Task<ArtistSearchResponse> Handle(ArtistSearchRequest request, CancellationToken cancellationToken)
         {
             try
             {
-                var artistResults = await _artistRepository.GetArtistsByName(request.SearchCriteria);
+                var results = await _artistRepository.GetArtistsByName(request.SearchCriteria);
+
+                if (results == null)
+                {
+                    return new ArtistSearchResponse();
+                }
+
+                var artists = results.Select(item => new Artist
+                {
+                    ArtistName = item.Name,
+                    Country = item.Country,
+                    Aliases = item.Aliases?.Split(',').ToList() ?? new List<string>()
+                }).ToList();
+
+                return new ArtistSearchResponse { Artists = artists };
             }
             catch (Exception e)
             {
                 _logger.LogError(e, "An error occurred while processing the ArtistSearchRequest.");
                 throw;
             }
-
-            return new List<ArtistSearchResponse>();
         }
     }
 }
