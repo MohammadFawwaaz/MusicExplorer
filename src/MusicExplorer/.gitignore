@@ -1,0 +1,54 @@
+# ASP.NET Core
+bin/
+obj/
+
+# User-specific files
+*.user
+*.suo
+*.sln.dotsettings.user
+*.ide
+
+# Build results
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+x64/
+x86/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+bld/
+[Bb]in/
+[Oo]bj/
+[Oo]ut/
+
+# Visual Studio files
+.vs/
+.vscode/
+
+# NuGet packages
+*.nuget.cache
+*.dll.config
+*.suo
+*.user.secrets
+*.xproj.user
+project.lock.json
+*.lock.json
+npm-debug.log*
+bower_components/
+jspm_packages/
+packages/
+artifacts/
+
+
+# Test results
+[Tt]est[Rr]esult*/
+[Bb]uild[Ll]og.*
+
+# Tooling
+*.sln.docstates
+
+# Others
+*.log
+*.tmp
+*.swp

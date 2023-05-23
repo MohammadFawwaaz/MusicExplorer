@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.33530.505
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExcelFileToSqlLoader", "ExcelFileToSqlLoader.csproj", "{271A85CC-4FAF-4B83-8923-89AB0B16DBD0}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{271A85CC-4FAF-4B83-8923-89AB0B16DBD0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{271A85CC-4FAF-4B83-8923-89AB0B16DBD0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{271A85CC-4FAF-4B83-8923-89AB0B16DBD0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{271A85CC-4FAF-4B83-8923-89AB0B16DBD0}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {EB940CF8-C3E9-44DE-ABE5-4CEB77E3F204}
+	EndGlobalSection
+EndGlobal
