@@ -1,19 +1,18 @@
 ﻿using MediatR;
-using MusicExplorer.Common.Models;
-using MusicExplorer.Infrastructure.Infrastructure.Sql;
 using MusicExplorer.Models.Request;
 using MusicExplorer.Models.Response;
+using MusicExplorer.Services;
 
 namespace MusicExplorer.Handlers
 {
     public class ArtistReleaseHandler : IRequestHandler<ArtistReleaseRequest, ArtistReleaseResponse>
     {
-        private readonly IArtistRepository _artistRepository;
+        private readonly IArtistReleaseService _artistService;
         private readonly ILogger<ArtistReleaseHandler> _logger;
 
-        public ArtistReleaseHandler(IArtistRepository artistRepository, ILogger<ArtistReleaseHandler> logger)
+        public ArtistReleaseHandler(IArtistReleaseService artistService, ILogger<ArtistReleaseHandler> logger)
         {
-            _artistRepository = artistRepository;
+            _artistService = artistService;
             _logger = logger;
         }
 
@@ -21,19 +20,18 @@ namespace MusicExplorer.Handlers
         {
             try
             {
-                var results = await _artistRepository.GetArtistsById(request.ArtistId);
+                // validate request
+
+
+                // call artist service
+                var results = await _artistService.GetReleases(request.ArtistId);
 
                 if (results == null)
                 {
-                    return new ArtistReleaseResponse();
+                    return null;
                 }
 
-                var releases = results.Select(item => new Release
-                {
-                    ReleaseId = Guid.NewGuid()
-                }).ToList();
-
-                return new ArtistReleaseResponse { Releases = releases };
+                return results;
             }
             catch (Exception e)
             {

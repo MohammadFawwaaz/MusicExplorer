@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
+using MusicExplorer.Client;
 using MusicExplorer.Infrastructure.Infrastructure.EntityFrameworkCore;
 using MusicExplorer.Infrastructure.Infrastructure.Sql;
 using MusicExplorer.Services;
@@ -25,7 +26,9 @@ namespace MusicExplorer
             services.AddMediatR(typeof(Startup).GetTypeInfo().Assembly);
 
             // Register custom services
-            services.AddTransient<IArtistService, ArtistService>();
+            services.AddTransient<IArtistReleaseService, ArtistReleaseService>();
+
+            services.AddHttpClient<IMusicBrainzClient, MusicBrainzClient>(httpClient => ConfigureArtistHttpClient(httpClient));
 
             // Configure DbContext and connection string
             services.AddDbContext<ArtistDbContext>(options =>
@@ -38,6 +41,12 @@ namespace MusicExplorer
             // Swagger
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen();
+        }
+
+        private void ConfigureArtistHttpClient(HttpClient httpClient)
+        {
+            httpClient.BaseAddress = new Uri(_configuration.GetSection("Clients:MusicBrainz:BaseUri").Value, UriKind.Absolute);
+            httpClient.DefaultRequestHeaders.Add("Accept", "application/json");
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

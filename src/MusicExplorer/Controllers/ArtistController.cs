@@ -34,7 +34,7 @@ namespace MusicExplorer.Controllers
 
                 if(results == null)
                 {
-                    return Ok("No artist found.");
+                    return NotFound();
                 }
 
                 var paginatedResults = PaginateResults(results.Artists, pageNumber, pageSize);
@@ -56,10 +56,10 @@ namespace MusicExplorer.Controllers
                 int pageNumber;
                 int pageSize;
 
-                if (Request.Headers.ContainsKey("pageNumber") && Request.Headers.ContainsKey("pageSize"))
+                if (Request.Headers.ContainsKey("X-PageNumber") && Request.Headers.ContainsKey("X-PageSize"))
                 {
-                    pageNumber = int.Parse(Request.Headers["pageNumber"].ToString());
-                    pageSize = int.Parse(Request.Headers["pageSize"].ToString());
+                    pageNumber = int.Parse(Request.Headers["X-PageNumber"].ToString());
+                    pageSize = int.Parse(Request.Headers["X-PageSize"].ToString());
                 }
                 else
                 {
@@ -77,7 +77,7 @@ namespace MusicExplorer.Controllers
 
                 if (results == null)
                 {
-                    return Ok("No release found.");
+                    return NotFound();
                 }
 
                 var paginatedResults = PaginateResults(results.Releases, pageNumber, pageSize);
