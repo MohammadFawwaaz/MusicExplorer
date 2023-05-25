@@ -8,15 +8,34 @@ namespace MusicExplorer.Mappings
     {
         public ArtistMapper()
         {
-            
+
         }
 
         public Task<ArtistReleaseResponse> MapArtistRelease(MusicBrainzReleasesResponse musicBrainzReleasesResponse)
         {
-            // TODO: implement mappings
-            var result = new ArtistReleaseResponse().Releases;
+            var listRelease = musicBrainzReleasesResponse.Releases.Select(item => new Models.Response.Release
+            {
+                ReleaseId = item.Id,
+                Title = item.Title,
+                Status = item.Status,
+                Label = item.LabelInfo.Select(itemLabel => new Label
+                {
+                    Id = itemLabel.Label?.Id,
+                    Name = itemLabel.Label?.Name
+                }).ToList(),
+                NumberOfTracks = item.Media?.FirstOrDefault()?.TrackCount.ToString(),
+                OtherArtists = item.Media?.FirstOrDefault()?.Tracks
+                .SelectMany(itemTrack => itemTrack.ArtistCredit.Select(itemArtistCredit => new OtherArtist
+                {
+                    Id = itemArtistCredit.Artist.Id,
+                    Name = itemArtistCredit.Artist.Name
+                }))
+                .GroupBy(artist => new { artist.Id, artist.Name })
+                .Select(group => group.First())
+                .ToList()
+            }).ToList();
 
-            var response = new ArtistReleaseResponse { Releases = result };
+            var response = new ArtistReleaseResponse { Releases = listRelease };
             return Task.FromResult(response);
         }
 

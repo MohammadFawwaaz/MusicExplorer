@@ -32,7 +32,7 @@ namespace MusicExplorer.Models.Response
     public class Label
     {
         [JsonProperty("id")]
-        public Guid Id { get; set; }
+        public Guid? Id { get; set; }
 
         [JsonProperty("name")]
         public string Name { get; set; }

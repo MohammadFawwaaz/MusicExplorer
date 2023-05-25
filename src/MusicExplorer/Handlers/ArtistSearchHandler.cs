@@ -25,7 +25,7 @@ namespace MusicExplorer.Handlers
                 // call artist search service
                 var results = await _artistSearchService.GetArtists(request.SearchCriteria);
 
-                if (results == null)
+                if (results.Artists == null)
                 {
                     return null;
                 }

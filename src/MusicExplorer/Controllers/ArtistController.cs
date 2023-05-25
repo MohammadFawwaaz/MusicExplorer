@@ -80,7 +80,7 @@ namespace MusicExplorer.Controllers
                     return NotFound();
                 }
 
-                var paginatedResults = PaginateResults(results.Releases, pageNumber, pageSize);
+                var paginatedResults = ReleasePaginateResults(results.Releases, pageNumber, pageSize);
 
                 return Ok(paginatedResults);
             }
@@ -108,6 +108,20 @@ namespace MusicExplorer.Controllers
                 PageSize = pageSize,
                 NumberOfSearchResults = totalCount,
                 NumberOfPages = totalPages
+            };
+        }
+
+        private static ReleasePaginationResult<T> ReleasePaginateResults<T>(IEnumerable<T> results, int pageNumber, int pageSize)
+        {
+            var paginationResult = PaginateResults(results, pageNumber, pageSize);
+
+            return new ReleasePaginationResult<T>
+            {
+                Releases = paginationResult.Results,
+                Page = paginationResult.Page,
+                PageSize = paginationResult.PageSize,
+                NumberOfSearchResults = paginationResult.NumberOfSearchResults,
+                NumberOfPages = paginationResult.NumberOfPages
             };
         }
     }
