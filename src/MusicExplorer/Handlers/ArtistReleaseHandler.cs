@@ -1,36 +1,44 @@
-﻿using MediatR;
+﻿using FluentValidation;
+using MediatR;
 using MusicExplorer.Models.Request;
-using MusicExplorer.Models.Response;
 using MusicExplorer.Services;
 
 namespace MusicExplorer.Handlers
 {
-    public class ArtistReleaseHandler : IRequestHandler<ArtistReleaseRequest, ArtistReleaseResponse>
+    public class ArtistReleaseHandler : IRequestHandler<ArtistReleaseRequest, IResult>
     {
+        private readonly IValidator<ArtistReleaseRequest> _validator;
         private readonly IArtistReleaseService _artistReleaseService;
         private readonly ILogger<ArtistReleaseHandler> _logger;
 
-        public ArtistReleaseHandler(IArtistReleaseService artistReleaseService, ILogger<ArtistReleaseHandler> logger)
+        public ArtistReleaseHandler(IValidator<ArtistReleaseRequest> validator,
+            IArtistReleaseService artistReleaseService, 
+            ILogger<ArtistReleaseHandler> logger)
         {
+            _validator = validator;
             _artistReleaseService = artistReleaseService;
             _logger = logger;
         }
 
-        public async Task<ArtistReleaseResponse> Handle(ArtistReleaseRequest request, CancellationToken cancellationToken)
+        public async Task<IResult> Handle(ArtistReleaseRequest request, CancellationToken cancellationToken)
         {
             try
             {
-                // validate request
+                var validationResult = _validator.ValidateAsync(request).Result;
 
+                if (!validationResult.IsValid)
+                {
+                    return Results.BadRequest(validationResult.Errors);
+                }
 
                 var results = await _artistReleaseService.GetReleases(request.ArtistId);
 
-                if (results.Releases == null)
+                if (results == null)
                 {
-                    return null;
+                    return Results.NotFound();
                 }
 
-                return results;
+                return Results.Ok(results);
             }
             catch (Exception e)
             {

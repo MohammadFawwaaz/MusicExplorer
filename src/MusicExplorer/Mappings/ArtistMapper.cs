@@ -18,21 +18,26 @@ namespace MusicExplorer.Mappings
                 ReleaseId = item.Id,
                 Title = item.Title,
                 Status = item.Status,
-                Label = item.LabelInfo.Select(itemLabel => new Label
-                {
-                    Id = itemLabel.Label?.Id,
-                    Name = itemLabel.Label?.Name
-                }).ToList(),
+                Label = item.LabelInfo
+                    .Select(itemLabel => new Label
+                    {
+                        Id = itemLabel.Label?.Id,
+                        Name = itemLabel.Label?.Name
+                    })
+                    .GroupBy(label => new { label.Id, label.Name })
+                    .Select(group => group.First())
+                    .ToList(),
                 NumberOfTracks = item.Media?.FirstOrDefault()?.TrackCount.ToString(),
                 OtherArtists = item.Media?.FirstOrDefault()?.Tracks
-                .SelectMany(itemTrack => itemTrack.ArtistCredit.Select(itemArtistCredit => new OtherArtist
-                {
-                    Id = itemArtistCredit.Artist.Id,
-                    Name = itemArtistCredit.Artist.Name
-                }))
-                .GroupBy(artist => new { artist.Id, artist.Name })
-                .Select(group => group.First())
-                .ToList()
+                    .SelectMany(itemTrack => itemTrack.ArtistCredit
+                        .Select(itemArtistCredit => new OtherArtist
+                        {
+                            Id = itemArtistCredit.Artist.Id,
+                            Name = itemArtistCredit.Artist.Name
+                        }))
+                    .GroupBy(artist => new { artist.Id, artist.Name })
+                    .Select(group => group.First())
+                    .ToList()
             }).ToList();
 
             var response = new ArtistReleaseResponse { Releases = listRelease };
@@ -43,12 +48,12 @@ namespace MusicExplorer.Mappings
         {
             var result = artists.Select(item => new Common.Models.Artist
             {
-                ArtistName = item.Name,
+                Name = item.Name.Trim(),
                 Country = item.Country,
-                Aliases = item.Aliases?.Split(',').Select(x => x.Trim()).ToList() ?? new List<string>()
+                Alias = item.Aliases?.Split(',').Select(x => x.Trim()).ToList() ?? new List<string>()
             }).ToList();
 
-            var response = new ArtistSearchResponse { Artists = result };
+            var response = new ArtistSearchResponse { Results = result };
             return Task.FromResult(response);
         }
     }

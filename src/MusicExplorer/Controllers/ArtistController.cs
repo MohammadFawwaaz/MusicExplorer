@@ -1,7 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using MusicExplorer.Models;
 using MusicExplorer.Models.Request;
 using MediatR;
+using Microsoft.AspNetCore.Http.HttpResults;
+using MusicExplorer.Models.Response;
+using MusicExplorer.Utils;
+using FluentValidation.Results;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace MusicExplorer.Controllers
 {
@@ -18,7 +22,18 @@ namespace MusicExplorer.Controllers
             _mediator = mediator;
         }
 
+        /// <summary>
+        /// Retrieve a list of Artists by search criteria
+        /// </summary>
+        /// <param name="searchCriteria"></param>
+        /// <param name="pageNumber"></param>
+        /// <param name="pageSize"></param>
+        /// <returns></returns>
         [HttpGet("search/{searchCriteria}/{pageNumber}/{pageSize}")]
+        [SwaggerResponse(StatusCodes.Status200OK, Type = typeof(IEnumerable<ArtistSearchResponse>))]
+        [SwaggerResponse(StatusCodes.Status400BadRequest)]
+        [SwaggerResponse(StatusCodes.Status404NotFound)]
+        [SwaggerResponse(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> SearchArtists(string searchCriteria, int pageNumber, int pageSize)
         {
             try
@@ -30,16 +45,25 @@ namespace MusicExplorer.Controllers
                     PageSize = pageSize
                 };
 
-                var results = await _mediator.Send(query);
+                var result = await _mediator.Send(query);
 
-                if(results.Artists == null || results.Artists.Count == 0)
+                if (result is BadRequest<List<ValidationFailure>> validationFailures)
+                {
+                    return BadRequest(validationFailures.Value.Select(x => x.ErrorMessage));
+                }
+
+                if (result is NotFound)
                 {
                     return NotFound();
                 }
 
-                var paginatedResults = PaginateResults(results.Artists, pageNumber, pageSize);
+                if (result is Ok<ArtistSearchResponse> paginatedResult)
+                {
+                    var paginatedResults = Helper.PaginateResults(paginatedResult.Value.Results, pageNumber, pageSize);
+                    return Ok(paginatedResults);
+                }
 
-                return Ok(paginatedResults);
+                return StatusCode(500, "Internal server error");
             }
             catch (Exception e)
             {
@@ -48,7 +72,16 @@ namespace MusicExplorer.Controllers
             }
         }
 
+        /// <summary>
+        /// Retrieve a list of Releases by Artist MBID
+        /// </summary>
+        /// <param name="artistId"></param>
+        /// <returns></returns>
         [HttpGet("{artistId}/releases")]
+        [SwaggerResponse(StatusCodes.Status200OK, Type = typeof(IEnumerable<ArtistReleaseResponse>))]
+        [SwaggerResponse(StatusCodes.Status400BadRequest)]
+        [SwaggerResponse(StatusCodes.Status404NotFound)]
+        [SwaggerResponse(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetArtistReleases(Guid artistId)
         {
             try
@@ -63,66 +96,42 @@ namespace MusicExplorer.Controllers
                 }
                 else
                 {
-                    // Set default values
                     pageNumber = 1;
                     pageSize = 10;
                 }
 
                 var query = new ArtistReleaseRequest
                 {
-                    ArtistId = artistId
+                    ArtistId = artistId,
+                    PageNumber = pageNumber,
+                    PageSize = pageSize
                 };
 
-                var results = await _mediator.Send(query);
+                var result = await _mediator.Send(query);
 
-                if (results.Releases == null || results.Releases.Count == 0)
+                if (result is BadRequest<List<ValidationFailure>> validationFailures)
+                {
+                    return BadRequest(validationFailures.Value.Select(x => x.ErrorMessage));
+                }
+
+                if (result is NotFound)
                 {
                     return NotFound();
                 }
 
-                var paginatedResults = ReleasePaginateResults(results.Releases, pageNumber, pageSize);
+                if (result is Ok<ArtistReleaseResponse> paginatedResult)
+                {
+                    var paginatedResults = Helper.PaginateReleaseResults(paginatedResult.Value.Releases, pageNumber, pageSize);
+                    return Ok(paginatedResults);
+                }
 
-                return Ok(paginatedResults);
+                return StatusCode(500, "Internal server error");
             }
             catch (Exception e)
             {
                 _logger.LogError(e, "An error occurred while searching for artist.");
                 return StatusCode(500, "Internal server error");
             }
-        }
-
-        private static PaginationResult<T> PaginateResults<T>(IEnumerable<T> results, int pageNumber, int pageSize)
-        {
-            var totalCount = results.Count();
-            var totalPages = (int)Math.Ceiling(totalCount / (double)pageSize);
-
-            var paginatedResults = results
-                .Skip((pageNumber - 1) * pageSize)
-                .Take(pageSize)
-                .ToList();
-
-            return new PaginationResult<T>
-            {
-                Results = paginatedResults,
-                Page = pageNumber,
-                PageSize = pageSize,
-                NumberOfSearchResults = totalCount,
-                NumberOfPages = totalPages
-            };
-        }
-
-        private static ReleasePaginationResult<T> ReleasePaginateResults<T>(IEnumerable<T> results, int pageNumber, int pageSize)
-        {
-            var paginationResult = PaginateResults(results, pageNumber, pageSize);
-
-            return new ReleasePaginationResult<T>
-            {
-                Releases = paginationResult.Results,
-                Page = paginationResult.Page,
-                PageSize = paginationResult.PageSize,
-                NumberOfSearchResults = paginationResult.NumberOfSearchResults,
-                NumberOfPages = paginationResult.NumberOfPages
-            };
         }
     }
 }

@@ -1,0 +1,64 @@
+{
+	"info": {
+		"_postman_id": "211ebd28-8d90-46cc-b712-e1ed4b7132ed",
+		"name": "MusicExplorer",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "SearchArtistsByName",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5218/artist/search/joh/1/10",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5218",
+					"path": [
+						"artist",
+						"search",
+						"joh",
+						"1",
+						"10"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "SearchReleasesByArtistMBID",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "X-PageNumber",
+						"value": "2",
+						"type": "text"
+					},
+					{
+						"key": "X-PageSize",
+						"value": "10",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:5218/artist/435f1441-0f43-479d-92db-a506449a686b/releases",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5218",
+					"path": [
+						"artist",
+						"435f1441-0f43-479d-92db-a506449a686b",
+						"releases"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

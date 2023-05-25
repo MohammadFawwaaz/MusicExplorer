@@ -1,36 +1,44 @@
-﻿using MediatR;
+﻿using FluentValidation;
+using MediatR;
 using MusicExplorer.Models.Request;
-using MusicExplorer.Models.Response;
 using MusicExplorer.Services;
 
 namespace MusicExplorer.Handlers
 {
-    public class ArtistSearchHandler : IRequestHandler<ArtistSearchRequest, ArtistSearchResponse>
+    public class ArtistSearchHandler : IRequestHandler<ArtistSearchRequest, IResult>
     {
+        private readonly IValidator<ArtistSearchRequest> _validator;
         private readonly IArtistSearchService _artistSearchService;
         private readonly ILogger<ArtistSearchHandler> _logger;
 
-        public ArtistSearchHandler(IArtistSearchService artistSearchService, ILogger<ArtistSearchHandler> logger)
+        public ArtistSearchHandler(IValidator<ArtistSearchRequest> validator,
+            IArtistSearchService artistSearchService, 
+            ILogger<ArtistSearchHandler> logger)
         {
+            _validator = validator;
             _artistSearchService = artistSearchService;
             _logger = logger;
         }
 
-        public async Task<ArtistSearchResponse> Handle(ArtistSearchRequest request, CancellationToken cancellationToken)
+        public async Task<IResult> Handle(ArtistSearchRequest request, CancellationToken cancellationToken)
         {
             try
             {
-                // validate request
+                var validationResult = _validator.ValidateAsync(request).Result;
 
-                // call artist search service
-                var results = await _artistSearchService.GetArtists(request.SearchCriteria);
-
-                if (results.Artists == null)
+                if (!validationResult.IsValid)
                 {
-                    return null;
+                    return Results.BadRequest(validationResult.Errors);
                 }
 
-                return results;
+                var results = await _artistSearchService.GetArtists(request.SearchCriteria);
+
+                if (results == null)
+                {
+                    return Results.NotFound();
+                }
+
+                return Results.Ok(results);
             }
             catch (Exception e)
             {

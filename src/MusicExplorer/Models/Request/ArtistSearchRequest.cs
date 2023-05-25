@@ -1,9 +1,6 @@
-﻿using MediatR;
-using MusicExplorer.Models.Response;
-
-namespace MusicExplorer.Models.Request
+﻿namespace MusicExplorer.Models.Request
 {
-    public class ArtistSearchRequest : IRequest<ArtistSearchResponse>
+    public class ArtistSearchRequest : IHttpRequest
     {
         public string SearchCriteria { get; set; }
         public int PageNumber { get; set; }

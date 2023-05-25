@@ -23,7 +23,7 @@ namespace MusicExplorer.Services
         {
             var artists = await _artistRepository.GetArtistsByName(searchCriteria);
 
-            if (artists == null)
+            if (artists == null || artists?.Count == 0)
             {
                 return null;
             }

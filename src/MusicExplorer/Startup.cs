@@ -1,10 +1,13 @@
-﻿using MediatR;
+﻿using FluentValidation;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using MusicExplorer.Client;
 using MusicExplorer.Infrastructure.Infrastructure.EntityFrameworkCore;
 using MusicExplorer.Infrastructure.Infrastructure.Sql;
 using MusicExplorer.Mappings;
+using MusicExplorer.Models.Request;
 using MusicExplorer.Services;
+using MusicExplorer.Validators;
 using System.Reflection;
 
 namespace MusicExplorer
@@ -25,6 +28,10 @@ namespace MusicExplorer
 
             // Add MediatR
             services.AddMediatR(typeof(Startup).GetTypeInfo().Assembly);
+
+            // Add validators
+            services.AddScoped<IValidator<ArtistSearchRequest>, ArtistSearchRequestValidator>();
+            services.AddScoped<IValidator<ArtistReleaseRequest>, ArtistReleaseRequestValidator>();
 
             // Register custom services
             services.AddTransient<IArtistSearchService, ArtistSearchService>();
