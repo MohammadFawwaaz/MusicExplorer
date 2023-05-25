@@ -1,4 +1,5 @@
 ﻿using MusicExplorer.Client;
+using MusicExplorer.Mappings;
 using MusicExplorer.Models.Response;
 
 namespace MusicExplorer.Services
@@ -6,11 +7,15 @@ namespace MusicExplorer.Services
     public class ArtistReleaseService : IArtistReleaseService
     {
         private readonly IMusicBrainzClient _musicBrainzClient;
+        private readonly IArtistMapper _mapper;
         private readonly ILogger<ArtistReleaseService> _logger;
 
-        public ArtistReleaseService(IMusicBrainzClient musicBrainzClient, ILogger<ArtistReleaseService> logger)
+        public ArtistReleaseService(IMusicBrainzClient musicBrainzClient,
+            IArtistMapper mapper,
+            ILogger<ArtistReleaseService> logger)
         {
             _musicBrainzClient = musicBrainzClient;
+            _mapper = mapper;
             _logger = logger;
         }
 
@@ -23,8 +28,8 @@ namespace MusicExplorer.Services
                 return null;
             }
 
-            // map MusicBrainzReleaseResponse to ArtistReleaseResponse and return
-            return new ArtistReleaseResponse();
+            var result = await _mapper.MapArtistRelease(releases);
+            return result;
         }
     }
 }

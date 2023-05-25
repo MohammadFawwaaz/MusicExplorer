@@ -32,7 +32,7 @@ namespace MusicExplorer.Controllers
 
                 var results = await _mediator.Send(query);
 
-                if(results == null)
+                if(results.Artists == null || results.Artists.Count == 0)
                 {
                     return NotFound();
                 }
@@ -75,7 +75,7 @@ namespace MusicExplorer.Controllers
 
                 var results = await _mediator.Send(query);
 
-                if (results == null)
+                if (results.Releases == null || results.Releases.Count == 0)
                 {
                     return NotFound();
                 }

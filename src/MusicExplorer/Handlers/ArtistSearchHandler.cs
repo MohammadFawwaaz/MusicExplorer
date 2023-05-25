@@ -1,19 +1,18 @@
 ﻿using MediatR;
-using MusicExplorer.Common.Models;
-using MusicExplorer.Infrastructure.Infrastructure.Sql;
 using MusicExplorer.Models.Request;
 using MusicExplorer.Models.Response;
+using MusicExplorer.Services;
 
 namespace MusicExplorer.Handlers
 {
     public class ArtistSearchHandler : IRequestHandler<ArtistSearchRequest, ArtistSearchResponse>
     {
-        private readonly IArtistRepository _artistRepository;
+        private readonly IArtistSearchService _artistSearchService;
         private readonly ILogger<ArtistSearchHandler> _logger;
 
-        public ArtistSearchHandler(IArtistRepository artistRepository, ILogger<ArtistSearchHandler> logger)
+        public ArtistSearchHandler(IArtistSearchService artistSearchService, ILogger<ArtistSearchHandler> logger)
         {
-            _artistRepository = artistRepository;
+            _artistSearchService = artistSearchService;
             _logger = logger;
         }
 
@@ -24,21 +23,14 @@ namespace MusicExplorer.Handlers
                 // validate request
 
                 // call artist search service
-                var results = await _artistRepository.GetArtistsByName(request.SearchCriteria);
+                var results = await _artistSearchService.GetArtists(request.SearchCriteria);
 
                 if (results == null)
                 {
-                    return new ArtistSearchResponse();
+                    return null;
                 }
 
-                var artists = results.Select(item => new Artist
-                {
-                    ArtistName = item.Name,
-                    Country = item.Country,
-                    Aliases = item.Aliases?.Split(',').ToList() ?? new List<string>()
-                }).ToList();
-
-                return new ArtistSearchResponse { Artists = artists };
+                return results;
             }
             catch (Exception e)
             {

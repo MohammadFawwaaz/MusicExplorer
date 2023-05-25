@@ -7,12 +7,12 @@ namespace MusicExplorer.Handlers
 {
     public class ArtistReleaseHandler : IRequestHandler<ArtistReleaseRequest, ArtistReleaseResponse>
     {
-        private readonly IArtistReleaseService _artistService;
+        private readonly IArtistReleaseService _artistReleaseService;
         private readonly ILogger<ArtistReleaseHandler> _logger;
 
-        public ArtistReleaseHandler(IArtistReleaseService artistService, ILogger<ArtistReleaseHandler> logger)
+        public ArtistReleaseHandler(IArtistReleaseService artistReleaseService, ILogger<ArtistReleaseHandler> logger)
         {
-            _artistService = artistService;
+            _artistReleaseService = artistReleaseService;
             _logger = logger;
         }
 
@@ -23,10 +23,9 @@ namespace MusicExplorer.Handlers
                 // validate request
 
 
-                // call artist service
-                var results = await _artistService.GetReleases(request.ArtistId);
+                var results = await _artistReleaseService.GetReleases(request.ArtistId);
 
-                if (results == null)
+                if (results.Releases == null)
                 {
                     return null;
                 }
