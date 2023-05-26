@@ -2,7 +2,8 @@
 	"info": {
 		"_postman_id": "211ebd28-8d90-46cc-b712-e1ed4b7132ed",
 		"name": "MusicExplorer",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "10774814"
 	},
 	"item": [
 		{

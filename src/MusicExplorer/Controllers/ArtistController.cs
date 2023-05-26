@@ -86,18 +86,20 @@ namespace MusicExplorer.Controllers
         {
             try
             {
-                int pageNumber;
-                int pageSize;
+                int pageNumber = 0;
+                int pageSize = 0;
 
                 if (Request.Headers.ContainsKey("X-PageNumber") && Request.Headers.ContainsKey("X-PageSize"))
                 {
-                    pageNumber = int.Parse(Request.Headers["X-PageNumber"].ToString());
-                    pageSize = int.Parse(Request.Headers["X-PageSize"].ToString());
-                }
-                else
-                {
-                    pageNumber = 1;
-                    pageSize = 10;
+                    if (int.TryParse(Request.Headers["X-PageNumber"].ToString(), out int parsedPageNumber))
+                    {
+                        pageNumber = parsedPageNumber;
+                    }
+
+                    if (int.TryParse(Request.Headers["X-PageSize"].ToString(), out int parsedPageSize))
+                    {
+                        pageSize = parsedPageSize;
+                    }
                 }
 
                 var query = new ArtistReleaseRequest
