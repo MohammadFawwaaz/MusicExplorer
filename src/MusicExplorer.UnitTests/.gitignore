@@ -1,0 +1,43 @@
+# Ignore build output
+/bin/
+/obj/
+
+# Ignore NuGet packages
+/packages/
+
+# Ignore test results
+/TestResults/
+
+# Ignore Visual Studio files
+.vs/
+*.suo
+*.user
+*.userprefs
+*.sln.docstates
+
+# Ignore Visual Studio Code files
+.vscode/
+
+# Ignore temporary files
+*.bak
+*.cache
+*.tmp
+
+# Ignore miscellaneous files
+.DS_Store
+Thumbs.db
+
+# Ignore NuGet restore files
+.nuget/
+*.nuget.props
+*.nuget.targets
+
+# Ignore generated documentation
+/docs/
+
+# Ignore generated files
+/Generated/
+
+# Ignore code coverage results
+/coverage/
+/coveragexml/
