@@ -27,14 +27,14 @@ namespace MusicExplorer.Mappings
                     .GroupBy(label => new { label.Id, label.Name })
                     .Select(group => group.First())
                     .ToList(),
-                NumberOfTracks = item.Media?.FirstOrDefault()?.TrackCount.ToString(),
-                OtherArtists = item.Media?.FirstOrDefault()?.Tracks
-                    .SelectMany(itemTrack => itemTrack.ArtistCredit
-                        .Select(itemArtistCredit => new OtherArtist
+                NumberOfTracks = item.Media?.Sum(x => x.TrackCount).ToString(),
+                OtherArtists = item.Media?.SelectMany(media => media.Tracks
+                    .SelectMany(track => track.ArtistCredit
+                        .Select(artistCredit => new OtherArtist
                         {
-                            Id = itemArtistCredit.Artist.Id,
-                            Name = itemArtistCredit.Artist.Name
-                        }))
+                            Id = artistCredit.Artist.Id,
+                            Name = artistCredit.Artist.Name
+                        })))
                     .GroupBy(artist => new { artist.Id, artist.Name })
                     .Select(group => group.First())
                     .ToList()
