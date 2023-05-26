@@ -3,7 +3,7 @@ using MusicExplorer.Client.Models;
 
 namespace MusicExplorer.UnitTests.Utils
 {
-    public static class ArtistReleaseMusicBrainzDataGenerator
+    public static class ArtistReleaseDataGenerator
     {
         public static MusicBrainzReleasesResponse GenerateDummyData()
         {

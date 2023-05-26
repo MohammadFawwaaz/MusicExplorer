@@ -24,7 +24,7 @@ namespace MusicExplorer.Handlers
         {
             try
             {
-                var validationResult = _validator.ValidateAsync(request).Result;
+                var validationResult = _validator.ValidateAsync(request, cancellationToken).Result;
 
                 if (!validationResult.IsValid)
                 {

@@ -13,7 +13,7 @@ namespace MusicExplorer.UnitTests.Mappings
         public ArtistReleaseMappingTests()
         {
             // Perform the initial setup in the constructor
-            _actualReleases = ArtistReleaseMusicBrainzDataGenerator.GenerateDummyData();
+            _actualReleases = ArtistReleaseDataGenerator.GenerateDummyData();
 
             _expectedResponse = new ArtistReleaseResponse
             {
