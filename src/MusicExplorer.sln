@@ -13,6 +13,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MusicExplorer.UnitTests", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExcelFileToSqlLoader", "ExcelFileToSqlLoader\ExcelFileToSqlLoader.csproj", "{6EF326EE-4F61-477C-97BF-E76F619B9747}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MusicExplorer.IntegrationTests", "MusicExplorer.IntegrationTests\MusicExplorer.IntegrationTests.csproj", "{ECAECE82-6064-45DB-99B6-5E0743971252}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{6EF326EE-4F61-477C-97BF-E76F619B9747}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6EF326EE-4F61-477C-97BF-E76F619B9747}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6EF326EE-4F61-477C-97BF-E76F619B9747}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ECAECE82-6064-45DB-99B6-5E0743971252}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ECAECE82-6064-45DB-99B6-5E0743971252}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ECAECE82-6064-45DB-99B6-5E0743971252}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ECAECE82-6064-45DB-99B6-5E0743971252}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
