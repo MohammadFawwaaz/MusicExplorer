@@ -21,15 +21,23 @@ namespace MusicExplorer.Services
 
         public async Task<ArtistReleaseResponse> GetReleases(Guid artistId)
         {
-            var releases = await _musicBrainzClient.GetReleases(artistId);
-
-            if (releases == null)
+            try
             {
-                return null;
-            }
+                var releases = await _musicBrainzClient.GetReleases(artistId);
 
-            var result = await _mapper.MapArtistRelease(releases);
-            return result;
+                if (releases == null)
+                {
+                    return null;
+                }
+
+                var result = await _mapper.MapArtistRelease(releases);
+                return result;
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, "An error occurred while fetching releases.");
+                throw;
+            }
         }
     }
 }

@@ -21,15 +21,23 @@ namespace MusicExplorer.Services
 
         public async Task<ArtistSearchResponse> GetArtists(string searchCriteria)
         {
-            var artists = await _artistRepository.GetArtistsByName(searchCriteria);
-
-            if (artists == null || artists?.Count == 0)
+            try
             {
-                return null;
-            }
+                var artists = await _artistRepository.GetArtistsByName(searchCriteria);
 
-            var result = await _mapper.MapArtist(artists);
-            return result;
+                if (artists == null || artists?.Count == 0)
+                {
+                    return null;
+                }
+
+                var result = await _mapper.MapArtist(artists);
+                return result;
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, "An error occurred while fetching artists.");
+                throw;
+            }
         }
     }
 }
