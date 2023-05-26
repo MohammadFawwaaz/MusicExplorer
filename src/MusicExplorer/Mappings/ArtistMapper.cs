@@ -48,9 +48,9 @@ namespace MusicExplorer.Mappings
         {
             var result = artists.Select(item => new Common.Models.Artist
             {
-                Name = item.Name.Trim(),
+                Name = item.Name,
                 Country = item.Country,
-                Alias = item.Aliases?.Split(',').Select(x => x.Trim()).ToList() ?? new List<string>()
+                Alias = item.Aliases?.Split(',').ToList() ?? new List<string>()
             }).ToList();
 
             var response = new ArtistSearchResponse { Results = result };
