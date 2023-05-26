@@ -1,12 +1,14 @@
 ﻿using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
 using MusicExplorer.Client;
 using MusicExplorer.Infrastructure.Infrastructure.EntityFrameworkCore;
 using MusicExplorer.Infrastructure.Infrastructure.Sql;
 using MusicExplorer.Mappings;
 using MusicExplorer.Models.Request;
 using MusicExplorer.Services;
+using MusicExplorer.Utils.Swagger;
 using MusicExplorer.Validators;
 using System.Reflection;
 
@@ -50,7 +52,11 @@ namespace MusicExplorer
 
             // Swagger
             services.AddEndpointsApiExplorer();
-            services.AddSwaggerGen();
+            services.AddSwaggerGen(options =>
+            {
+                options.SwaggerDoc("v1", new OpenApiInfo { Title = "Music Explorer API", Version = "v1" });
+                options.OperationFilter<CustomHeaderOperationFilter>();
+            });
         }
 
         private void ConfigureArtistHttpClient(HttpClient httpClient)
