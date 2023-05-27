@@ -6,6 +6,11 @@ namespace MusicExplorer.Utils
     {
         public static PaginationResult<T> PaginateResults<T>(IEnumerable<T> results, int pageNumber, int pageSize)
         {
+            if (results == null)
+            {
+                return new PaginationResult<T>();
+            }
+
             var totalCount = results.Count();
             var totalPages = (int)Math.Ceiling(totalCount / (double)pageSize);
 
