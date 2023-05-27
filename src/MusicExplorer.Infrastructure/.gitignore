@@ -1,0 +1,34 @@
+# Build results
+/bin/
+/obj/
+
+# Visual Studio files
+.vscode/
+*.sln.dotsettings.user
+
+# User-specific files
+*.user
+*.suo
+
+# NuGet packages
+*.nuget.cache
+*.dll.config
+
+# .NET Core
+project.lock.json
+*.nuget.props
+*.nuget.targets
+project.assets.json
+
+# MSBuild generated files
+*.FileListAbsolute.txt
+*.FileList.txt
+*.projdata
+
+# Test Results
+/TestResults/
+
+# Other
+*.log
+*.tmp
+*.swp
