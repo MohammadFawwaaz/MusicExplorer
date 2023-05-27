@@ -1,17 +1,23 @@
-﻿using MusicExplorer.Client;
+﻿using Microsoft.Extensions.Configuration;
+using MusicExplorer.Client;
 
 namespace MusicExplorer.IntegrationTests.Client
 {
     public class MusicBrainzClientTests
     {
+        private readonly IConfiguration _configuration;
         private readonly HttpClient _httpClient;
         private readonly IMusicBrainzClient _musicBrainzClient;
 
         public MusicBrainzClientTests()
         {
+            _configuration = new ConfigurationBuilder()
+                .AddJsonFile("appsettings.json")
+                .Build();
+
             _httpClient = new HttpClient
             {
-                BaseAddress = new Uri("https://musicbrainz.org/ws/2/")
+                BaseAddress = new Uri(_configuration.GetSection("Clients:MusicBrainz:BaseUri").Value)
             };
 
             _httpClient.DefaultRequestHeaders.Add("User-Agent", "MusicExplorerTest/1.0");
