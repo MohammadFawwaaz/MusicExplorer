@@ -1,7 +1,7 @@
 ﻿using Bogus;
 using MusicExplorer.Client.Models;
 
-namespace MusicExplorer.UnitTests.Utils
+namespace MusicExplorer.UnitTests.TestHelper
 {
     public static class ArtistReleaseDataGenerator
     {

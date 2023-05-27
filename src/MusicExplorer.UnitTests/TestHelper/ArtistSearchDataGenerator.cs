@@ -1,7 +1,7 @@
 ﻿using Bogus;
 using MusicExplorer.Common.Models.DbContext;
 
-namespace MusicExplorer.UnitTests.Utils
+namespace MusicExplorer.UnitTests.TestHelper
 {
     public static class ArtistSearchDataGenerator
     {

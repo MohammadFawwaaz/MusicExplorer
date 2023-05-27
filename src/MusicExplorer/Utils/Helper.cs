@@ -11,6 +11,16 @@ namespace MusicExplorer.Utils
                 return new PaginationResult<T>();
             }
 
+            if (pageNumber <= 0)
+            {
+                pageNumber = 1;
+            }
+
+            if (pageSize <= 0)
+            {
+                pageSize = results.Count();
+            }
+
             var totalCount = results.Count();
             var totalPages = (int)Math.Ceiling(totalCount / (double)pageSize);
 

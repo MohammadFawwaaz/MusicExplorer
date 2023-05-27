@@ -1,7 +1,7 @@
 ﻿using MusicExplorer.Client.Models;
 using MusicExplorer.Mappings;
 using MusicExplorer.Models.Response;
-using MusicExplorer.UnitTests.Utils;
+using MusicExplorer.UnitTests.TestHelper;
 
 namespace MusicExplorer.UnitTests.Mappings
 {
