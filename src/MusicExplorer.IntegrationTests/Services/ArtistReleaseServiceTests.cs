@@ -35,9 +35,9 @@ namespace MusicExplorer.IntegrationTests.Services
         {
             // Arrange
             Guid artistId = Guid.NewGuid();
-            var releases = new List<Client.Models.Release>
+            var releases = new List<MusicExplorer.Client.Models.Release>
             {
-                new Client.Models.Release
+                new MusicExplorer.Client.Models.Release
                 {
                     Title = "Release 1",
                     LabelInfo = new List<LabelInfo>
@@ -58,7 +58,7 @@ namespace MusicExplorer.IntegrationTests.Services
                         }
                     }
                 },
-                new Client.Models.Release
+                new MusicExplorer.Client.Models.Release
                 {
                     Title = "Release 2",
                     LabelInfo = new List<LabelInfo>
@@ -160,7 +160,7 @@ namespace MusicExplorer.IntegrationTests.Services
             Guid artistId = Guid.NewGuid();
 
             _musicBrainzClientMock.Setup(client => client.GetReleases(artistId))
-                .ReturnsAsync(new MusicBrainzReleasesResponse { Releases = new List<Client.Models.Release>() });
+                .ReturnsAsync(new MusicBrainzReleasesResponse { Releases = new List<MusicExplorer.Client.Models.Release>() });
 
             // Act
             var response = await _artistReleaseService.GetReleases(artistId);
