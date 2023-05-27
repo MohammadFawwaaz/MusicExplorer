@@ -28,7 +28,6 @@ namespace MusicExplorer.IntegrationTests.Services
 
         public void Dispose()
         {
-            // Clean up any resources if needed
         }
 
         [Fact]
