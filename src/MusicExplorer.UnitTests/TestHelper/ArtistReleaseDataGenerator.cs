@@ -1,9 +1,9 @@
 ﻿using Bogus;
 using MusicExplorer.Client.Models;
 
-namespace MusicExplorer.UnitTests.Utils
+namespace MusicExplorer.UnitTests.TestHelper
 {
-    public static class ArtistReleaseMusicBrainz
+    public static class ArtistReleaseDataGenerator
     {
         public static MusicBrainzReleasesResponse GenerateDummyData()
         {

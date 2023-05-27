@@ -131,7 +131,7 @@ namespace MusicExplorer.Controllers
             }
             catch (Exception e)
             {
-                _logger.LogError(e, "An error occurred while searching for artist.");
+                _logger.LogError(e, "An error occurred while searching for artist releases.");
                 return StatusCode(500, "Internal server error");
             }
         }

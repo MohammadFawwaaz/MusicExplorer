@@ -6,15 +6,13 @@ namespace MusicExplorer.Validators
 {
     public class ArtistSearchRequestValidator : AbstractValidator<ArtistSearchRequest>
     {
-        public ArtistSearchRequestValidator() 
+        public ArtistSearchRequestValidator()
         {
             RuleFor(x => x.SearchCriteria)
-                .NotNull().WithMessage("SearchCriteria cannot be null")
-                .NotEmpty().WithMessage("SearchCriteria cannot be empty")
-                .Must(searchCriteria => !string.IsNullOrWhiteSpace(searchCriteria))
+                .Must(searchCriteria => searchCriteria == null || !string.IsNullOrWhiteSpace(searchCriteria))
                 .WithMessage("SearchCriteria cannot be null, empty, or whitespace")
                 .MinimumLength(3).WithMessage("SearchCriteria must be of length 3 or more")
-                .Must(searchCriteria => !Regex.IsMatch(searchCriteria, @"\d"))
+                .Must(searchCriteria => !ContainNumbers(searchCriteria))
                 .WithMessage("SearchCriteria cannot contain numbers");
 
             RuleFor(x => x.PageNumber)
@@ -25,5 +23,7 @@ namespace MusicExplorer.Validators
                 .GreaterThanOrEqualTo(1)
                 .WithMessage("PageSize must be greater than or equal to 1");
         }
+
+        private static bool ContainNumbers(string value) => value != null && value.Any(char.IsDigit);
     }
 }
