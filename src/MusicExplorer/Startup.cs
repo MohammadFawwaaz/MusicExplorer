@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using MediatR;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using MusicExplorer.Client;
@@ -10,6 +11,7 @@ using MusicExplorer.Models.Request;
 using MusicExplorer.Services;
 using MusicExplorer.Utils.Swagger;
 using MusicExplorer.Validators;
+using Newtonsoft.Json;
 using System.Reflection;
 
 namespace MusicExplorer
@@ -57,6 +59,8 @@ namespace MusicExplorer
                 options.SwaggerDoc("v1", new OpenApiInfo { Title = "Music Explorer API", Version = "v1" });
                 options.OperationFilter<CustomHeaderOperationFilter>();
             });
+
+            services.AddHealthChecks();
         }
 
         private void ConfigureArtistHttpClient(HttpClient httpClient)
@@ -68,8 +72,11 @@ namespace MusicExplorer
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            app.UseSwagger();
-            app.UseSwaggerUI();
+            if (env.IsDevelopment())
+            {
+                app.UseSwagger();
+                app.UseSwaggerUI();
+            }
 
             app.UseHttpsRedirection();
 
@@ -80,6 +87,26 @@ namespace MusicExplorer
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+
+                endpoints.MapHealthChecks("/health", new HealthCheckOptions
+                {
+                    ResponseWriter = async (context, report) =>
+                    {
+                        context.Response.ContentType = "application/json";
+                        var response = new
+                        {
+                            Status = report.Status.ToString(),
+                            HealthChecks = report.Entries.Select(x => new
+                            {
+                                Component = x.Key,
+                                Status = x.Value.Status.ToString(),
+                                Description = x.Value.Description
+                            }),
+                            HealthCheckDuration = report.TotalDuration
+                        };
+                        await context.Response.WriteAsync(JsonConvert.SerializeObject(response));
+                    }
+                });
             });
         }
     }
