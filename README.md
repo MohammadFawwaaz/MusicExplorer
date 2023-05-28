@@ -37,7 +37,7 @@ This xUnit project consists of unit tests which tests the individual components 
 
 ## Architecture Diagram
 The architecture diagram below illustrates the components and their relationships within the application:
-https://github.com/MohammadFawwaaz/MusicExplorer/blob/107ddfe3546d02c541648cdc8cfc3e0d155f9e8c/assets/MusicExplorer%20Architecture%20Diagram.jpg
+![image](https://github.com/MohammadFawwaaz/MusicExplorer/assets/62407416/408d9d42-8290-4a8b-96da-ac8b7318fda4)
 
 First, the Console Application is used to load the artists from the excel file to the database. (Represented by number 1 in the architecture diagram)
 
