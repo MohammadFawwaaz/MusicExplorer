@@ -45,24 +45,30 @@ namespace MusicExplorer.Controllers
                     PageSize = pageSize
                 };
 
+                _logger.LogInformation($"Processing Artist Search Request. SearchCriteria: {query.SearchCriteria}, PageNumber: {query.PageNumber}, PageSize: {query.PageSize}");
+
                 var result = await _mediator.Send(query);
 
                 if (result is BadRequest<List<ValidationFailure>> validationFailures)
                 {
+                    _logger.LogError($"Validation error occured.");
                     return BadRequest(validationFailures.Value.Select(x => x.ErrorMessage));
                 }
 
                 if (result is NotFound)
                 {
+                    _logger.LogInformation($"No artist found for searchCriteria: {query.SearchCriteria}.");
                     return NotFound();
                 }
 
                 if (result is Ok<ArtistSearchResponse> paginatedResult)
                 {
+                    _logger.LogInformation($"Paginated artist result returned.");
                     var paginatedResults = Helper.PaginateResults(paginatedResult.Value.Results, pageNumber, pageSize);
                     return Ok(paginatedResults);
                 }
 
+                _logger.LogInformation($"Unknown result received. Returned 500.");
                 return StatusCode(500, "Internal server error");
             }
             catch (Exception e)
@@ -109,24 +115,30 @@ namespace MusicExplorer.Controllers
                     PageSize = pageSize
                 };
 
+                _logger.LogInformation($"Processing Artist Release Request. ArtistId: {query.ArtistId}, PageNumber: {query.PageNumber}, PageSize: {query.PageSize}");
+
                 var result = await _mediator.Send(query);
 
                 if (result is BadRequest<List<ValidationFailure>> validationFailures)
                 {
+                    _logger.LogError($"Validation error occured.");
                     return BadRequest(validationFailures.Value.Select(x => x.ErrorMessage));
                 }
 
                 if (result is NotFound)
                 {
+                    _logger.LogInformation($"No release found for artistId: {query.ArtistId}.");
                     return NotFound();
                 }
 
                 if (result is Ok<ArtistReleaseResponse> paginatedResult)
                 {
+                    _logger.LogInformation($"Paginated artist result returned.");
                     var paginatedResults = Helper.PaginateReleaseResults(paginatedResult.Value.Releases, pageNumber, pageSize);
                     return Ok(paginatedResults);
                 }
 
+                _logger.LogInformation($"Unknown result received. Returned 500.");
                 return StatusCode(500, "Internal server error");
             }
             catch (Exception e)
