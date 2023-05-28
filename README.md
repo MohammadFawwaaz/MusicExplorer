@@ -81,11 +81,11 @@ HTTPS - port: 7117
 
 SSL - port: 44387 (IIS Settings)
 
-| {apiUrl} : http:localhost/5218
+> {apiUrl} : http:localhost/5218
 
-| {apiUrl} : https:localhost/7117
+> {apiUrl} : https:localhost/7117
 
-| {apiUrl} : https:localhost/44387
+> {apiUrl} : https:localhost/44387
 
 ### Health Check Endpoint
 The health check endpoint can be pinged on:
