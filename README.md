@@ -139,8 +139,9 @@ To search for releases:
 # Future Work
 1. Use PollyRetry to retry database call requests and external API's requests to make MusicExplorer API more resilient.
 2. Add a layer in the application where Artists are queried from MusicBrainz API when not available in the SQL Server database.
-3. Dockerize the application and add tests coverage.
-4. Add more tests
+3. Use Serilog for logging
+4. Dockerize the application and add tests coverage.
+5. Add more tests
 
 ## References
 [MusicBrainz API documentation](https://musicbrainz.org/doc/MusicBrainz_API)
