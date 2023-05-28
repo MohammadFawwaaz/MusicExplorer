@@ -53,12 +53,19 @@ The prerequisites to run this solution requires [.NET 7 SDK](https://dotnet.micr
 
 ## Technologies
 ### Excel File Loader [Console Application]
-EPPlus (NonCommercial License)
+[EPPlus](https://www.epplussoftware.com/en) (NonCommercial License)
 
 ### Music Explorer [ASP.NET Core Web API]
 EntityFramework Core 7.0.5
+
+Logging (Microsoft default logging - configured to log in Windows Event Log when running on IIS)
+
 FluentValidation
+
 Swagger
+
+## Swagger API Documentation
+The Swagger UI is exposed on path `/swagger/index.html` when running the API. Both endpoints (artists, releases) exposed are well documented with the ability to try out the request from the UI, including the second endpoint (releases) configured to accept pagination parameters in the request header. Additionally, All the responses returned by the endpoints are documented under each endpoint on the Swagger UI and finally, the sample JSON response is also added to get an idea of the sample response from each endpoint.
 
 # Usage
 
@@ -66,8 +73,42 @@ Swagger
 The scripts to create the database and the artist table and the insert statements to seed the artist table are present in the Scripts folder namely: `create_script.sql` and `seed_artists.sql`.
 
 ## Web API Endpoints
-postman collection
-swagger ui (ss)
+The API endpoints are exposed as follows on:
+HTTP - port: 5218
+HTTPS - port: 7117
+SSL - port: 44387 (IIS Settings)
+
+| {apiUrl} : http:localhost/5218
+| {apiUrl} : https:localhost/7117
+| {apiUrl} : https:localhost/44387
+
+### Health Check Endpoint
+The health check endpoint can be pinged on:
+
+`{apiUrl}/health`
+
+### Get Artists Endpoint
+The artists search endpoint can be pinged on:
+
+`{apiUrl}/artist/search/{searchCriteria}/{pageNumber}/{pageSize}`
+
+### Get Releases Endpoint
+The releases endpoint can be pinged on:
+
+`{apiUrl}/artist/{artistId}/releases`
+
+In this endpoint, the page number and page size are passed into the request header as follows:
+
+`X-PageNumber`
+
+`X-PageSize`
+
+## Swagger UI Request
+To search for artists:
+
+
+To search for releases:
+
 
 ## Bonus
 1. Added a validation layer to the Handlers using FluentValidation.
@@ -80,7 +121,7 @@ swagger ui (ss)
 4. Add more tests
 
 ## References
-MusicBrainz API documentation: https://musicbrainz.org/doc/MusicBrainz_API
+[MusicBrainz API documentation](https://musicbrainz.org/doc/MusicBrainz_API)
 
 The documentation was used to build the URL to query MusicBrainz API to get Releases by Artist MBID.
 
