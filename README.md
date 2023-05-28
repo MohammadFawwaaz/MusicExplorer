@@ -2,14 +2,17 @@
 
 ## Overview
 MusicExplorer is a Web API built on .NET 7, which provides information about artists and releases. The atists details are saved in a SQL Server database and the releases are available by querying MusicBrainz API. MusicExplorer exposes 2 endpoints to make artists and releases available to a user. A high level description of the folder structure are as follows:
+
 Postman - contains the postman collection to query the MusicExplorer API
+
 Scripts - contains the SQL Server database/table create and artists seeding script
+
 src - contains the different projects in the solution
 
 ## Project Structure
 The MusicExplorer solution consists of 6 projects:
 ### 1. ExcelFileToSqlLoader
-This project was developed quickly to load the artists present in the Excel file to SQL Server database. The project reads the Excel file (from `docs` folder), sanitize the data and loads the data to SQL Server in a table named `Artist` using EF Core.
+This project was developed quickly to load the artists present in the Excel file to SQL Server database. The project reads the Excel file (from `docs/` folder), sanitize the data and loads the data to SQL Server in a table named `Artist` using EF Core.
 
 ### 2. MusicExplorer
 The MusicExplorer API exposes 2 endpoints to query artists and releases. The request is sent to a Handler from the Controller where the request is validated. Then the respective Service is called to fetch the data requested and returned. Finally, in the Controller, the result is paginated and returned.
@@ -39,7 +42,7 @@ Third flow, the user access the Artist Release endpoint where the Web API querie
 ## Testing
 To test the MusicExplorer API, in Visual Studio, in the Test Explorer panel, the unit and integration tests are available to be executed.
 
-Note: To run the Integration tests, most specifically the `MusicBrainzClientTests`, the device must be connected to internet as this particular test connects to the MusicBrainz API.
+**Note: To run the Integration tests, most specifically the `MusicBrainzClientTests`, the device must be connected to internet as this particular test connects to the MusicBrainz API.**
 
 # Setup
 
@@ -63,9 +66,6 @@ Logging (Microsoft default logging - configured to log in Windows Event Log when
 FluentValidation
 
 Swagger
-
-## Swagger API Documentation
-The Swagger UI is exposed on path `/swagger/index.html` when running the API. Both endpoints (artists, releases) exposed are well documented with the ability to try out the request from the UI, including the second endpoint (releases) configured to accept pagination parameters in the request header. Additionally, All the responses returned by the endpoints are documented under each endpoint on the Swagger UI and finally, the sample JSON response is also added to get an idea of the sample response from each endpoint.
 
 # Usage
 
@@ -103,6 +103,9 @@ In this endpoint, the page number and page size are passed into the request head
 
 `X-PageSize`
 
+# Swagger API Documentation
+The Swagger UI is exposed on path `/swagger/index.html` when running the API. Both endpoints (artists, releases) exposed are well documented with the ability to try out the request from the UI, including the second endpoint (releases) configured to accept pagination parameters in the request header. Additionally, All the responses returned by the endpoints are documented under each endpoint on the Swagger UI and finally, the sample JSON response is also added to get an idea of the sample response from each endpoint.
+
 ## Swagger UI Request
 To search for artists:
 
@@ -110,11 +113,11 @@ To search for artists:
 To search for releases:
 
 
-## Bonus
+# Bonus
 1. Added a validation layer to the Handlers using FluentValidation.
 2. Added Swagger to the project to provide endpoints documentation and to easily query the endpoints exposed using a web browser.
 
-## Future Work
+# Future Work
 1. Use PollyRetry to retry database call requests and external API's requests to make MusicExplorer API more resilient.
 2. Add a layer in the application where Artists are queried from MusicBrainz API when not available in the SQL Server database.
 3. Dockerize the application and add tests coverage.
