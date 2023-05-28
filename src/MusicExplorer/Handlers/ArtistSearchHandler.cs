@@ -24,6 +24,7 @@ namespace MusicExplorer.Handlers
         {
             try
             {
+                _logger.LogInformation($"Validating Search Request.");
                 var validationResult = _validator.ValidateAsync(request, cancellationToken).Result;
 
                 if (!validationResult.IsValid)
@@ -31,6 +32,7 @@ namespace MusicExplorer.Handlers
                     return Results.BadRequest(validationResult.Errors);
                 }
 
+                _logger.LogInformation($"Getting artists.");
                 var results = await _artistSearchService.GetArtists(request.SearchCriteria);
 
                 if (results == null)

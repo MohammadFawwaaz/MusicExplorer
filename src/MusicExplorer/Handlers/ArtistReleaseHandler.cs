@@ -24,6 +24,7 @@ namespace MusicExplorer.Handlers
         {
             try
             {
+                _logger.LogInformation($"Validating Release Request");
                 var validationResult = _validator.ValidateAsync(request, cancellationToken).Result;
 
                 if (!validationResult.IsValid)
@@ -31,6 +32,7 @@ namespace MusicExplorer.Handlers
                     return Results.BadRequest(validationResult.Errors);
                 }
 
+                _logger.LogInformation($"Getting releases.");
                 var results = await _artistReleaseService.GetReleases(request.ArtistId);
 
                 if (results == null)
