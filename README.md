@@ -74,12 +74,17 @@ The scripts to create the database and the artist table and the insert statement
 
 ## Web API Endpoints
 The API endpoints are exposed as follows on:
+
 HTTP - port: 5218
+
 HTTPS - port: 7117
+
 SSL - port: 44387 (IIS Settings)
 
 | {apiUrl} : http:localhost/5218
+
 | {apiUrl} : https:localhost/7117
+
 | {apiUrl} : https:localhost/44387
 
 ### Health Check Endpoint
@@ -103,10 +108,10 @@ In this endpoint, the page number and page size are passed into the request head
 
 `X-PageSize`
 
-# Swagger API Documentation
+## Swagger API Documentation
 The Swagger UI is exposed on path `/swagger/index.html` when running the API. Both endpoints (artists, releases) exposed are well documented with the ability to try out the request from the UI, including the second endpoint (releases) configured to accept pagination parameters in the request header. Additionally, All the responses returned by the endpoints are documented under each endpoint on the Swagger UI and finally, the sample JSON response is also added to get an idea of the sample response from each endpoint.
 
-## Swagger UI Request
+### Swagger UI Request
 To search for artists:
 
 
