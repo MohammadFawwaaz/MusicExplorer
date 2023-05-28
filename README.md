@@ -45,6 +45,12 @@ Second flow, the user access the Artist Search endpoint where the Web API querie
 
 Third flow, the user access the Artist Release endpoint where the Web API queries the MusicBrainz API and returns a paginated result. (Represented by number 6, 7, 8, 9)
 
+## Component Diagram
+The component diagram shows a high level overview of the ASP.NET Core Web API components interacting with each other:
+![image](https://github.com/MohammadFawwaaz/MusicExplorer/assets/62407416/dcd5bfe8-7463-49b8-b295-118cb55c2b43)
+
+The dotted line illustrates that either the Client or the Repository is called depending on the request from the Service (either ArtistSearchService or ArtistReleaseService).
+
 ## Testing
 To test the MusicExplorer API, in Visual Studio, in the Test Explorer panel, the unit and integration tests are available to be executed.
 
