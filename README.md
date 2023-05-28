@@ -65,7 +65,7 @@ The prerequisites to run this solution requires [.NET 7 SDK](https://dotnet.micr
 [EPPlus](https://www.epplussoftware.com/en) (NonCommercial License)
 
 ### Music Explorer
-EntityFramework Core 7.0.5
+EntityFramework Core 7.0
 
 FluentValidation
 
