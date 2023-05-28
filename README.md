@@ -1,13 +1,19 @@
 # MusicExplorer API
 
 ## Overview
-MusicExplorer is a Web API built on .NET 7, which provides information about artists and releases. The atists details are saved in a SQL Server database and the releases are available by querying MusicBrainz API. MusicExplorer exposes 2 endpoints to make artists and releases available to a user. A high level description of the folder structure are as follows:
+MusicExplorer is a Web API built on .NET 7, which provides information about artists and releases. The atists details are saved in a SQL Server database and the releases are available by querying MusicBrainz API. 
 
-Postman - contains the postman collection to query the MusicExplorer API
+This solution consists of 2 main projects:
+1. ExcelFileToSqlLoader [Console Application] - Loads the artists excel file to SQL Server database
+2. MusicExplorer [ASP.NET Core Web API] - Exposes 2 endpoints to make artists and releases available. 
 
-Scripts - contains the SQL Server database/table create and artists seeding script
+A high level description of the folder structure are as follows:
 
-src - contains the different projects in the solution
+Postman - Contains the postman collection to query the MusicExplorer API
+
+Scripts - Contains the SQL Server create database and table and artists seeding scripts
+
+src - Contains the different projects in the solution
 
 ## Project Structure
 The MusicExplorer solution consists of 6 projects:
@@ -24,7 +30,7 @@ This is a Class Library project used to share common components across the solut
 This Class Library project is used to separate the Infrastructure layer from the API, such as, calls to database.
 
 ### 5. MusicExplorer.IntegrationTests
-This xUnit project consists of integration tests which the different components of the application such as: endpoints, database call, 3rd party API call and the services.
+This xUnit project consists of integration tests which tests the different components of the application such as: endpoints, database call, 3rd party API call and the services.
 
 ### 6. MusicExplorer.UnitTests
 This xUnit project consists of unit tests which tests the individual components of the application such as: mappings, validators and paginations.
@@ -55,22 +61,30 @@ The prerequisites to run this solution requires [.NET 7 SDK](https://dotnet.micr
 4) [Postman](https://www.postman.com/downloads/) or a web browser
 
 ## Technologies
-### Excel File Loader [Console Application]
+### Excel File Loader
 [EPPlus](https://www.epplussoftware.com/en) (NonCommercial License)
 
-### Music Explorer [ASP.NET Core Web API]
+### Music Explorer
 EntityFramework Core 7.0.5
-
-Logging (Microsoft default logging - configured to log in Windows Event Log when running on IIS)
 
 FluentValidation
 
 Swagger
 
+Logging (Microsoft default logging - configured to log in Windows Event Log when running on IIS)
+
+Faker (Used in xUnit Tests to generate dummy data)
+
 # Usage
 
-## Database Creation/Seeding
-The scripts to create the database and the artist table and the insert statements to seed the artist table are present in the Scripts folder namely: `create_script.sql` and `seed_artists.sql`.
+## Database Creation & Seeding
+The scripts to create the database and the artist table and the insert statements to seed the artist table are present in the Scripts folder namely: 
+
+`create_database.sql` - create the database if not already exists
+
+`create_table.sql` - create the Artist table
+
+`seed_artists.sql` - seed the Artist table with data from the excel file
 
 ## Web API Endpoints
 The API endpoints are exposed as follows on:
