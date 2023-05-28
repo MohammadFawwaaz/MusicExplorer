@@ -127,10 +127,10 @@ The Swagger UI is exposed on path `/swagger/index.html` when running the API. Bo
 
 ### Swagger UI Request
 To search for artists:
-![SearchEndpoint](https://github.com/MohammadFawwaaz/ArtistMusicExplorer/assets/62407416/9d7098a6-48f7-40ac-83a2-55b360f285ad)
+![image](https://github.com/MohammadFawwaaz/MusicExplorer/assets/62407416/52655d89-db53-43a1-9b09-6e01049cfb35)
 
 To search for releases:
-![ReleaseEndpoint](https://github.com/MohammadFawwaaz/ArtistMusicExplorer/assets/62407416/14aa25be-8ab1-460e-a5db-d08ad067ab40)
+![image](https://github.com/MohammadFawwaaz/MusicExplorer/assets/62407416/3a6859ac-50e1-4dc5-9dc4-94d22a6057e4)
 
 # Bonus
 1. Added a validation layer to the Handlers using FluentValidation.
