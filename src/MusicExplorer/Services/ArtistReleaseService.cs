@@ -23,6 +23,7 @@ namespace MusicExplorer.Services
         {
             try
             {
+                _logger.LogInformation($"Fetching releases from MusicBrainz.");
                 var releases = await _musicBrainzClient.GetReleases(artistId);
 
                 if (releases == null)
@@ -30,6 +31,7 @@ namespace MusicExplorer.Services
                     return null;
                 }
 
+                _logger.LogInformation($"Mapping releases to return result.");
                 var result = await _mapper.MapArtistRelease(releases);
                 return result;
             }

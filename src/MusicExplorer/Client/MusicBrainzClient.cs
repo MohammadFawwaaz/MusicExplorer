@@ -9,9 +9,7 @@ namespace MusicExplorer.Client
 
         public MusicBrainzClient(HttpClient httpClient)
         {
-
             _httpClient = httpClient;
-
         }
 
         public async Task<MusicBrainzReleasesResponse> GetReleases(Guid artistId)

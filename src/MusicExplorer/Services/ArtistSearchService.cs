@@ -23,6 +23,7 @@ namespace MusicExplorer.Services
         {
             try
             {
+                _logger.LogInformation($"Fetching artists from database.");
                 var artists = await _artistRepository.GetArtistsByName(searchCriteria);
 
                 if (artists == null || artists?.Count == 0)
@@ -30,6 +31,7 @@ namespace MusicExplorer.Services
                     return null;
                 }
 
+                _logger.LogInformation($"Mapping artist to return result.");
                 var result = await _mapper.MapArtist(artists);
                 return result;
             }
