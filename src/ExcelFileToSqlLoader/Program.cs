@@ -24,11 +24,13 @@ namespace ExcelFileToSqlLoader
                     return;
                 }
 
+                Console.WriteLine($"Reading file: {Path.GetFileName(excelFilePath)}");
                 using (var context = new DatabaseContext())
                 {
                     var reader = new ExcelFileReader(new FileInfo(excelFilePath));
                     var data = reader.ReadAll();
 
+                    Console.WriteLine($"Saving data to database.");
                     context.Artist.AddRange(data);
                     context.SaveChanges();
                 }
@@ -38,7 +40,6 @@ namespace ExcelFileToSqlLoader
             catch (Exception e)
             {
                 Console.WriteLine($"Error occured while loading file: {e.Message}");
-                throw;
             }
         }
     }
