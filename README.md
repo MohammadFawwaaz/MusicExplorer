@@ -5,7 +5,7 @@ MusicExplorer is a Web API built on .NET 7, which provides information about art
 
 Postman - contains the postman collection to query the MusicExplorer API
 
-Scripts - contains the SQL Server database/table create and artists seeding script
+Scripts - contains the SQL Server create database and table and artists seeding script
 
 src - contains the different projects in the solution
 
@@ -67,10 +67,18 @@ FluentValidation
 
 Swagger
 
+Faker (Used in xUnit Tests to generate dummy data)
+
 # Usage
 
-## Database Creation/Seeding
-The scripts to create the database and the artist table and the insert statements to seed the artist table are present in the Scripts folder namely: `create_script.sql` and `seed_artists.sql`.
+## Database Creation & Seeding
+The scripts to create the database and the artist table and the insert statements to seed the artist table are present in the Scripts folder namely: 
+
+`create_database.sql` - create the database if not already exists
+
+`create_table.sql` - create the Artist table in the database created
+
+`seed_artists.sql` - seed the artists data from the excel file
 
 ## Web API Endpoints
 The API endpoints are exposed as follows on:
